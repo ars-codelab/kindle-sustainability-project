@@ -1,6 +1,18 @@
-# Kindle Paperwhite 2 (6th Gen) Jailbreak & KOReader Guide
+# Kindle Paperwhite 2 Revival & Sustainability Guide
+### *Giving 10+ Year Old E-Readers a Second Life & Reducing E-Waste*
 
-> A complete, field-tested guide to jailbreaking the **Kindle Paperwhite 2 (Model EY21)** running final firmware **5.12.2.2** using the **WatchThis** exploit, installing **KUAL**, and running **KOReader** in de-bloated **No-Framework** mode with wireless macOS Finder transfers.
+> A complete, field-tested guide to revitalizing the **Kindle Paperwhite 2 (Model EY21)** running final firmware **5.12.2.2** by liberating it from proprietary bloat, installing **KUAL**, and deploying **KOReader** in a lightweight, energy-efficient **No-Framework** mode with wireless macOS Finder transfers.
+
+---
+
+## 🌍 Why This Project Exists: Fighting Planned Obsolescence & E-Waste
+
+Consumer electronics are frequently abandoned not because the hardware has failed, but because modern proprietary software outgrows older hardware constraints.
+
+* **The Hardware Still Shines:** The Kindle Paperwhite 2 features an exceptional 212 PPI Carta e-ink display, durable LED front-lighting, and solid battery life that can easily last for weeks.
+* **The Software Bottleneck:** Out of the box, Amazon's proprietary Java application stack (`lab126_gui`), background telemetry, indexing services, and store integrations consume **75% to 85% of the device's modest RAM** (256 MB / 512 MB) at idle. This causes sluggish UI response, battery drain, and limits you to Amazon-approved document formats.
+* **The Sustainable Solution:** Rather than discarding functional e-readers into landfills, we can remove unwanted background packages, bypass legacy software constraints, and install **KOReader**—a blazing-fast, open-source document viewer. 
+* **The Result:** Memory usage drops from **~85% down to under 25%**, page turns become instantaneous, battery life improves, and the device gains native support for open standards (EPUB, CBZ, PDF) and wireless LAN transfers.
 
 ---
 
@@ -8,48 +20,48 @@
 
 > **READ THIS CAREFULLY BEFORE CONTINUING:**
 > 
-> * **Voiding Warranty & Bricking Risk:** Modifying your Kindle's operating system, root filesystem, and boot environment carries an inherent risk of permanently damaging ("bricking") your device. 
-> * **No Liability:** Neither the authors of this guide, nor the developers of the WatchThis exploit, KUAL, MRPI, or KOReader, accept any responsibility or liability for bricked devices, lost data, damaged hardware, or voided warranties.
-> * **Strict Version Check:** This guide was tested specifically for **Kindle Paperwhite 2 (Model EY21)** running firmware **`5.12.2.2`**. Do **NOT** attempt these steps on unsupported hardware models or incompatible firmware revisions without consulting the official MobileRead documentation.
-> * **Backup First:** **Always perform a full, bit-for-bit local backup of your device's flash storage** before executing any exploit or filesystem modifications.
+> * **Hardware Modification Risks:** While this process is tested and verified, modifying your Kindle's root filesystem and boot scripts carries an inherent risk of soft-bricking or bootlooping the device.
+> * **No Liability:** Neither the authors of this guide nor the open-source developers of WatchThis, KUAL, MRPI, or KOReader assume any responsibility for damaged hardware, lost data, or bricked devices.
+> * **Model Compatibility:** This guide is specifically written and tested for the **Kindle Paperwhite 2 (Model EY21)** on official firmware **`5.12.2.2`**. Do **NOT** follow these exact payloads on different hardware models without consulting the appropriate device trees on MobileRead.
+> * **Mandatory Backup:** Always create a complete, bit-for-bit local backup of your device's flash storage before making any filesystem modifications.
 
 ---
 
-## Target Specifications
+## Device & Target Specifications
 
 | Parameter | Specification |
 | :--- | :--- |
-| **Device Model** | Kindle Paperwhite 2 (6th Generation, `EY21`, late 2013–2014) |
+| **Target Hardware** | Kindle Paperwhite 2 (6th Generation, Model `EY21`, late 2013–2014) |
 | **Processor** | Freescale/NXP i.MX6 SoloLite (1 GHz ARM Cortex-A9) |
-| **RAM** | 256 MB or 512 MB (Stock Amazon Java GUI consumes ~75–85% at idle) |
-| **Firmware Target** | `5.12.2.2` (Final official release for PW2) |
-| **Exploit Vector** | **WatchThis** (Demo Mode package injection exploit) |
-| **Target Software** | **KOReader** running in **No-Framework** mode |
-| **Book Transfer** | Wireless SFTP/SSH directly via macOS Finder (No cables needed) |
+| **System Memory** | 256 MB or 512 MB (Stock Amazon Java UI idles at ~75–85% utilization) |
+| **Firmware Target** | `5.12.2.2` (Final official software release for PW2) |
+| **Revival Vector** | **WatchThis** (Demo mode package injection method) |
+| **Primary Reader** | **KOReader** in **No-Framework** mode (Amazon Java UI suspended) |
+| **E-Waste Impact** | Extends device lifespan indefinitely; adds modern EPUB/PDF reading & Wi-Fi sync |
 
 ---
 
 ## Required Packages & Downloads
 
-Before starting, obtain the official archives from the MobileRead Developer's Corner and GitHub:
+All packages used are maintained by the open-source community:
 
-1. **WatchThis Exploit Archive:** `watchthis-jailbreak-r03.zip` (Official MobileRead thread)
+1. **WatchThis Package:** `watchthis-jailbreak-r03.zip` (Official MobileRead thread)
 2. **MobileRead Package Installer (MRPI):** `kual-mrinstaller-*.tar.xz`
 3. **KUAL (Kindle Unified Application Launcher):** `KUAL-*-coplate.tar.xz` (Booklet version)
-4. **JailBreak Hotfix:** `JailBreak-*-FW-5.x-hotfix.zip`
+4. **Root Persistence Hotfix:** `JailBreak-*-FW-5.x-hotfix.zip`
 5. **KOReader for Kindle:** `koreader-kindle-v*.zip` (Legacy Kindle ARM build from [KOReader Releases](https://github.com/koreader/koreader/releases))
 
 ---
 
-## Step 1: Pre-Flight Check & Complete Storage Backup
+## Step 1: Pre-Flight Check & Full Flash Backup
 
 ### ⚠️ Real-World Issue #1: Kindle Not Detected in macOS Finder
-* **The Symptom:** You plug the Kindle into your Mac with a USB cable, the orange charging LED turns on, but no drive appears on the Desktop or `/Volumes/`.
+* **The Symptom:** You plug the Kindle into your Mac with a USB cable, the orange charging LED lights up, but no volume appears in Finder or `/Volumes/`.
 * **The Cause:** 
-  1. **Charge-Only Cable:** Many micro-USB cables lack internal data lines (`D+`/`D-`). If the Kindle screen does not immediately switch to **"USB Drive Mode"**, the cable is charge-only.
-  2. **macOS "Allow accessory to connect" prompt:** Modern macOS versions (Apple Silicon) block external USB devices until you click **"Allow"** in the top-right notification banner.
-  3. **USB-C Dongle/Hub:** Low-quality hubs may drop data negotiation.
-* **The Fix:** Swap to a verified data micro-USB cable, approve the macOS security banner, and plug directly into your Mac.
+  1. **Charge-Only Micro-USB Cable:** A vast majority of older micro-USB cables only have power wires and lack internal data lines (`D+`/`D-`). If the Kindle screen does not switch to **"USB Drive Mode"**, the cable cannot transfer data.
+  2. **macOS "Allow accessory to connect" prompt:** On Apple Silicon Macs, macOS blocks USB devices until you manually click **"Allow"** in the top-right notification banner.
+  3. **USB-C Hub / Dongle:** Certain multi-port dongles fail to negotiate USB 2.0 mass storage properly.
+* **The Fix:** Switch to a verified data cable, approve the macOS security banner, and plug directly into your Mac.
 
 ### Perform a Bit-for-Bit Local Backup
 Once `/Volumes/Kindle` mounts, create an immutable local backup on your computer before touching anything:
@@ -72,9 +84,9 @@ diskutil info /Volumes/Kindle >> "$BACKUP_DIR/device_info.txt"
 
 ---
 
-## Step 2: Prevent Automatic OTA Updates
+## Step 2: Prevent Unwanted OTA Updates
 
-To stop Amazon background services from overwriting exploit files:
+To stop background Amazon processes from downloading unwanted updates or reverting modifications:
 
 ```bash
 # Create an immutable dummy update directory (blocks OTA downloader)
@@ -86,14 +98,14 @@ mkdir -p /Volumes/Kindle/update.bin.tmp.partial
 ## Step 3: Factory Reset & Enter Demo Mode
 
 1. **Unplug the USB cable** from the Kindle.
-2. Go to **Settings** (gear or `⋮` menu) → tap `⋮` again → tap **Reset** (or **Reset Device**). Confirm and let the device format and restart (1–2 minutes).
-3. **Crucial Language Choice:** On the language setup screen, **you MUST select `English (United Kingdom)` (`en_GB`)**. WatchThis expects British English paths.
-4. **Skip Wi-Fi Setup:** When the Wi-Fi list appears, tap any network, then tap **Cancel** to bring up the **Set Up Later** option. Do not connect to Wi-Fi.
+2. Go to **Settings** (gear or `⋮` menu) → tap `⋮` again → tap **Reset** (or **Reset Device**). Confirm and allow the device to format and restart (1–2 minutes).
+3. **Crucial Language Choice:** On the language setup screen, **you MUST select `English (United Kingdom)` (`en_GB`)**. The exploit structure expects British English system paths.
+4. **Skip Wi-Fi Setup:** When the Wi-Fi list appears, tap any network, then tap **Cancel** to bring up the **Set Up Later** option. Do not connect to Wi-Fi yet.
 
 ### ⚠️ Real-World Issue #2: `;enter_demo` Shows No Response
-* **The Symptom:** You tap the search bar, type `;enter_demo`, press Search/Enter, and nothing happens.
-* **The Reality:** This command **provides zero visual feedback**. It silently sets an internal system flag.
-* **The Fix:** Immediately after tapping Enter, **hold the power button for 20–30 seconds** until the screen flashes and restarts. Upon booting, it will automatically launch the Demo Setup Wizard.
+* **The Symptom:** You tap the search bar, type `;enter_demo`, press Search/Enter, and nothing happens on screen.
+* **The Reality:** This command **provides zero visual feedback or confirmation**. It silently flips an internal system flag.
+* **The Fix:** Immediately after tapping Enter, **hold down the power button for 20–30 seconds** until the screen flashes and restarts. Upon booting, it will automatically launch the Demo Setup Wizard.
 
 ---
 
@@ -108,7 +120,7 @@ mkdir -p /Volumes/Kindle/update.bin.tmp.partial
 
 ### ⚠️ Real-World Issue #3: Blank White Screen After Demo Setup
 * **The Symptom:** The Kindle screen goes completely blank white and appears frozen.
-* **The Fix:** The demo runner simply failed to refresh the e-ink screen. **Press the physical power button once briefly** (quick click) to sleep/wake the screen and force an e-ink redraw.
+* **The Fix:** The demo launcher simply failed to trigger an e-ink screen refresh. **Press the physical power button once briefly** (quick click) to sleep/wake the screen and force an e-ink redraw.
 
 ### ⚠️ Real-World Issue #4: "Configure Device - Missing Content" Lockout
 * The screen displays: *"This demonstration device is either missing content or is disconnected from the network."*
@@ -123,7 +135,7 @@ Once bypassed, the top search bar will appear!
 
 ---
 
-## Step 5: Stage the WatchThis Exploit Payload
+## Step 5: Stage the WatchThis Payload
 
 1. In the search bar on your Kindle, type:
    ```text
@@ -137,7 +149,7 @@ Once bypassed, the top search bar will appear!
    * Copy `PW2-5.12.2.2.zip` directly into `/Volumes/Kindle/.demo/` (**DO NOT EXTRACT IT**)
    * Copy `demo.json` directly into `/Volumes/Kindle/.demo/`
    * Create an empty directory `/Volumes/Kindle/.demo/goodreads`
-5. Eject and unplug cleanly:
+5. Eject cleanly:
    ```bash
    dot_clean /Volumes/Kindle
    diskutil eject /Volumes/Kindle
@@ -145,7 +157,7 @@ Once bypassed, the top search bar will appear!
 
 ---
 
-## Step 6: Trigger the Jailbreak
+## Step 6: Trigger the Liberation Exploit
 
 1. Tap **Done** at the "sideload content" prompt on the Kindle screen.
 
@@ -157,7 +169,7 @@ Once bypassed, the top search bar will appear!
   * If frozen, perform a hard reboot (hold power button for 15s), re-open `;demo` → **Sideload Content** → tap **Done** (files are already safely on the device).
 2. **Paperwhite 2 Trigger:** Tap the **Store icon (shopping cart)** at the top of the screen.
 3. Select **Help & User Guides** → tap **Get Started**.
-4. The device will flash, display jailbreak text on screen, and reboot into an open-root jailbroken state!
+4. The device will flash, display the exploit overlay on screen, and reboot into an open-root state!
 
 ---
 
@@ -173,7 +185,7 @@ The Kindle will reboot back into Demo Mode. To permanently exit demo mode and pr
    and tap Enter (forces USB mass storage mode).
 3. Connect the Kindle to your Mac.
 4. Copy `Update_hotfix_watchthis_custom.bin` to the root of `/Volumes/Kindle/`.
-5. Eject and unplug the Kindle:
+5. Eject and unplug cleanly:
    ```bash
    dot_clean /Volumes/Kindle
    diskutil eject /Volumes/Kindle
@@ -188,7 +200,7 @@ The Kindle will reboot back into Demo Mode. To permanently exit demo mode and pr
 
 ---
 
-## Step 8: Deploy KUAL, JailBreak Hotfix & KOReader via MRPI
+## Step 8: Deploy KUAL, Root Hotfix & KOReader via MRPI
 
 1. Connect the Kindle to your Mac via USB.
 2. Extract the utility packages onto `/Volumes/Kindle/`:
@@ -211,22 +223,22 @@ The Kindle will reboot back into Demo Mode. To permanently exit demo mode and pr
 
 ---
 
-## Step 9: Launching KOReader in "No-Framework" Mode
+## Step 9: Running KOReader in "No-Framework" Mode
 
 1. Open **KUAL** from your library.
 2. Tap **KOReader** → select **"Start KOReader (no framework)"**.
-3. The screen will briefly flash black.
+3. The screen will briefly flash black as the Amazon GUI shuts down.
 
 ### ⚠️ Real-World Issue #7: Why Exiting KOReader Restarts the Kindle
 * **The Symptom:** When you tap Exit inside KOReader, the screen flashes and the Kindle reboots / reloads the interface.
-* **The Reason:** In "No-Framework" mode, KOReader executes `stop lab126_gui` on launch, killing Amazon's bloated Java system to free up **~70% of the device's RAM** (dropping memory usage from ~85% to under 25%).
-* When you exit KOReader, the wrapper script executes `start lab126_gui`, which prompts Upstart to restart the Amazon environment. This warm restart is completely normal and intentional.
+* **The Reason:** In "No-Framework" mode, KOReader executes `stop lab126_gui` on launch, shutting down Amazon's bloated Java system to free up **~70% of the device's RAM** (dropping memory usage from ~85% to under 25%).
+* When you exit KOReader, the wrapper script executes `start lab126_gui`, which prompts Upstart to reload the Amazon environment. This warm restart is completely normal and intentional.
 
 ---
 
-## Step 10: Wireless EPUB Transfer via macOS Finder (No USB Cables!)
+## Step 10: Wireless EPUB Transfer via macOS Finder (Zero Cables!)
 
-Once inside KOReader, you never need to connect a physical USB cable again:
+Once inside KOReader, you never need to connect a physical micro-USB cable again:
 
 1. In KOReader, tap the very top edge of the screen to reveal the menu.
 2. Tap the **Network (Globe / Wi-Fi icon)** tab.
@@ -248,7 +260,7 @@ Once inside KOReader, you never need to connect a physical USB cable again:
 
 ---
 
-## Summary of Troubleshooting Quick-Reference
+## Troubleshooting Quick-Reference
 
 | Issue | Cause | Solution |
 | :--- | :--- | :--- |
