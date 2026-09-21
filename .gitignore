@@ -1,0 +1,9 @@
+.DS_Store
+*.zip
+*.tar.xz
+*.bin
+staged_packages/
+kindle_payload/
+watchthis-release/
+watchthis-jailbreak-r03.zip
+.venv/
