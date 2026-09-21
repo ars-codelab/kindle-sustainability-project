@@ -3,6 +3,16 @@
 
 > A complete, field-tested guide to revitalizing the **Kindle Paperwhite 2 (Model EY21)** running final firmware **5.12.2.2** by liberating it from proprietary bloat, installing **KUAL**, and deploying **KOReader** in a lightweight, energy-efficient **No-Framework** mode with wireless macOS Finder transfers.
 
+> [!TIP]
+> **🤖 Pair-Programming with a Local CLI AI Agent:**
+> Because this revival process involves multi-stage payload staging, checksum validation, volume management, and precise timing, it is **highly recommended to use a CLI-based autonomous AI agent** (such as Google Antigravity, Claude Code, Aider, or similar tools with direct terminal or PowerShell access).
+> 
+> A CLI-enabled agent can:
+> * **Safely Automate Backups:** Detect volume mounts and perform bit-for-bit local backups automatically (`rsync`).
+> * **Download & Verify Packages:** Fetch the exact firmware-matched exploit files, verify MD5 checksums, and stage directories without manual errors.
+> * **Clean OS Metadata & Manage Drives:** Automatically strip hidden OS artifacts (e.g., macOS `dot_clean`, AppleDouble files) and safely unmount/eject storage.
+> * **Step-by-Step Guidance:** Dynamically troubleshoot in real time (e.g., recognizing gesture timing, handling application popups, configuring wireless SFTP).
+
 ---
 
 ## 🌍 Why This Project Exists: Fighting Planned Obsolescence & E-Waste
