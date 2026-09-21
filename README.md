@@ -7,7 +7,7 @@
 > **🤖 Pair-Programming with a Local CLI AI Agent:**
 > Because this revival process involves multi-stage payload staging, checksum validation, volume management, and precise timing, it is **highly recommended to use a CLI-based autonomous AI agent** (such as Google Antigravity, Claude Code, Aider, or similar tools with direct terminal or PowerShell access).
 > 
-> A CLI-enabled agent can:
+> **How to use:** Simply pass this GitHub repository URL (`https://github.com/ars-codelab/kindle-sustainability-project`) to your CLI agent as context. The agent can read this guide directly and handle or guide you through most steps end-to-end:
 > * **Safely Automate Backups:** Detect volume mounts and perform bit-for-bit local backups automatically (`rsync`).
 > * **Download & Verify Packages:** Fetch the exact firmware-matched exploit files, verify MD5 checksums, and stage directories without manual errors.
 > * **Clean OS Metadata & Manage Drives:** Automatically strip hidden OS artifacts (e.g., macOS `dot_clean`, AppleDouble files) and safely unmount/eject storage.
